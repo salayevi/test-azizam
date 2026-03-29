@@ -3,6 +3,7 @@ import ProductsSection from "../product/desktop";
 import AchievementsSection from "../AchievementsSection/desktop/AchievementsSection";
 import Footer from "../home/desktop/Footer/footer";
 import HomeSection from "../home/desktop";
+import { sizes } from "@/config/design-system";
 
 export default function DesktopPage() {
   return (
@@ -11,7 +12,7 @@ export default function DesktopPage() {
         <HomeSection />
         <About />
         <ProductsSection />
-        <div className="h-[20vh] bg-white" />
+        <div className="bg-white" style={{ height: sizes.layout.sectionGap }} />
         <AchievementsSection />
         <Footer />
       </div>

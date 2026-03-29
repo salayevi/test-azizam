@@ -3,7 +3,7 @@
 import Image from "next/image"
 import { useEffect, useRef } from "react"
 import gsap from "gsap"
-import { colors, motion, spacing, zIndex } from "@/config/design-system"
+import { colors, motion, sizes, spacing, zIndex } from "@/config/design-system"
 import AuthTriggerButton from "@/app/companent/shared/auth/AuthTriggerButton"
 import { usePublicSiteContent } from "@/app/companent/shared/content/PublicSiteContentProvider"
 import {
@@ -34,37 +34,47 @@ export default function Navbar() {
   return (
     <nav
       ref={navRef}
-      className="fixed left-0 top-0 flex w-full items-center justify-between text-white backdrop-blur-md"
+      className="fixed left-0 top-0 w-full text-white backdrop-blur-md"
       style={{
-        paddingInline: spacing[10],
-        paddingBlock: spacing[6],
         zIndex: zIndex.navbar,
         backgroundColor: colors.overlay.navbar,
       }}
     >
-      <div className="flex items-center gap-2">
-        <Image
-          src={logoAsset?.url ?? "/logo.png"}
-          alt={logoAsset?.alt ?? siteIdentity.siteName}
-          width={40}
-          height={40}
-        />
-      </div>
+      <div
+        className="mx-auto flex w-full items-center justify-between"
+        style={{
+          maxWidth: sizes.layout.desktopWide,
+          paddingInline: sizes.layout.gutter,
+          paddingBlock: spacing[5],
+        }}
+      >
+        <div className="flex items-center gap-2">
+          <Image
+            src={logoAsset?.url ?? "/logo.png"}
+            alt={logoAsset?.alt ?? siteIdentity.siteName}
+            width={40}
+            height={40}
+          />
+        </div>
 
-      <div className="flex gap-8 text-sm font-medium">
-        {headerLinks.slice(0, 2).map((link) => (
-          <a
-            key={link.id}
-            href={link.href}
-            target={link.openInNewTab ? "_blank" : undefined}
-            rel={link.openInNewTab ? "noreferrer" : undefined}
-          >
-            {link.label}
-          </a>
-        ))}
-        <AuthTriggerButton mode="login" className="transition hover:opacity-80">
-          Kirish yoki Ro&apos;yxatdan o&apos;tish
-        </AuthTriggerButton>
+        <div
+          className="flex items-center text-sm font-medium"
+          style={{ gap: "clamp(20px, 2vw, 36px)" }}
+        >
+          {headerLinks.slice(0, 2).map((link) => (
+            <a
+              key={link.id}
+              href={link.href}
+              target={link.openInNewTab ? "_blank" : undefined}
+              rel={link.openInNewTab ? "noreferrer" : undefined}
+            >
+              {link.label}
+            </a>
+          ))}
+          <AuthTriggerButton mode="login" className="transition hover:opacity-80">
+            Kirish yoki Ro&apos;yxatdan o&apos;tish
+          </AuthTriggerButton>
+        </div>
       </div>
     </nav>
   )
