@@ -32,7 +32,14 @@ export default function ProductsScene({ products }: Props) {
         style={{ backgroundColor: colors.background.soft }}
       >
         <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center px-6">
-          <div className="text-center">
+          <div
+            className="text-center"
+            style={{
+              width: "100%",
+              maxWidth: sizes.layout.desktopContainer,
+              paddingInline: sizes.layout.gutter,
+            }}
+          >
             <p
               data-products-kicker
               className="mb-4 text-xs uppercase tracking-[0.45em] sm:text-sm"
@@ -43,8 +50,11 @@ export default function ProductsScene({ products }: Props) {
 
             <h2
               data-products-title
-              className="text-6xl font-semibold tracking-tight sm:text-7xl md:text-8xl lg:text-[8rem]"
-              style={{ color: colors.brand.primaryStrong }}
+              className="text-6xl font-semibold tracking-tight sm:text-7xl md:text-8xl"
+              style={{
+                color: colors.brand.primaryStrong,
+                fontSize: "clamp(68px, 7vw, 128px)",
+              }}
             >
               Mahsulotlar
             </h2>
@@ -59,11 +69,16 @@ export default function ProductsScene({ products }: Props) {
           </div>
         </div>
 
-        <div className="absolute inset-0 z-10 flex items-center justify-center px-4 pointer-events-none sm:px-6 lg:px-10">
+        <div
+          className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none"
+          style={{ paddingInline: sizes.layout.gutter }}
+        >
           <div
             data-products-card-shell
             className="relative w-full will-change-transform pointer-events-auto"
-            style={{ maxWidth: sizes.product.cardMaxWidth }}
+            style={{
+              maxWidth: `min(${sizes.product.cardMaxWidth}, ${sizes.layout.desktopContainer})`,
+            }}
           >
             <div
               data-products-card-shadow

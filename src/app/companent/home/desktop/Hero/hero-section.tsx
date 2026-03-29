@@ -127,8 +127,8 @@ export default function Hero() {
         className="relative mx-auto flex h-full w-full flex-col justify-center"
         style={{
           zIndex: zIndex.content,
-          maxWidth: sizes.hero.containerMax,
-          paddingInline: spacing[5],
+          maxWidth: sizes.layout.desktopWide,
+          paddingInline: sizes.layout.gutter,
         }}
       >
         <div className="flex flex-1 flex-col justify-center">
@@ -136,7 +136,7 @@ export default function Hero() {
             ref={azizamRef}
             className="font-bold"
             style={{
-              fontSize: `clamp(${typography.fontSize.heroSm}, 12vw, ${typography.fontSize.heroXl})`,
+              fontSize: `clamp(${typography.fontSize.heroSm}, 10vw, ${typography.fontSize.heroXl})`,
               lineHeight: typography.lineHeight.none,
               letterSpacing: typography.letterSpacing.tighter,
               paddingLeft: spacing[4],
@@ -149,7 +149,7 @@ export default function Hero() {
             ref={marketRef}
             className="text-right font-bold"
             style={{
-              fontSize: `clamp(${typography.fontSize.heroSm}, 12vw, ${typography.fontSize.heroXl})`,
+              fontSize: `clamp(${typography.fontSize.heroSm}, 10vw, ${typography.fontSize.heroXl})`,
               lineHeight: typography.lineHeight.none,
               letterSpacing: typography.letterSpacing.tighter,
               marginTop: spacing[4],

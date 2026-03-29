@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { colors, radius, spacing } from "@/config/design-system"
+import { colors, radius, sizes } from "@/config/design-system"
 import AuthTriggerButton from "@/app/companent/shared/auth/AuthTriggerButton"
 import { usePublicSiteContent } from "@/app/companent/shared/content/PublicSiteContentProvider"
 import { selectFooterViewModel } from "@/lib/backend/selectors"
@@ -16,7 +16,14 @@ export default function Footer() {
       className="relative w-full overflow-hidden"
       style={{ backgroundColor: colors.background.dark }}
     >
-      <div className="mx-auto max-w-7xl px-6 py-20 lg:px-10">
+      <div
+        className="mx-auto"
+        style={{
+          maxWidth: sizes.layout.desktopWide,
+          paddingInline: sizes.layout.gutter,
+          paddingBlock: "clamp(72px, 10vh, 96px)",
+        }}
+      >
         <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
           <div className="max-w-md">
             <div className="flex items-center gap-3">

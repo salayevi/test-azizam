@@ -308,7 +308,9 @@ export default function AchievementsSection() {
             className="absolute inset-0 flex flex-col items-center justify-center text-center"
             style={{
               zIndex: zIndex.intro,
-              paddingInline: spacing[6],
+              maxWidth: sizes.layout.desktopContainer,
+              marginInline: "auto",
+              paddingInline: sizes.layout.gutter,
             }}
           >
             <h2
@@ -329,14 +331,18 @@ export default function AchievementsSection() {
             </p>
           </div>
 
-          <div className="absolute inset-0">
+          <div
+            className="absolute inset-0 mx-auto w-full"
+            style={{ maxWidth: sizes.layout.desktopWide }}
+          >
             {achievements.map((item, index) => (
               <div
                 key={item.item.id}
                 ref={(el) => {
                   slidesRef.current[index] = el
                 }}
-                className="absolute inset-0 flex items-center justify-center px-8 lg:px-16"
+                className="absolute inset-0 flex items-center justify-center"
+                style={{ paddingInline: sizes.layout.gutter }}
               >
                 <div className="relative flex h-full w-full max-w-7xl items-center justify-center">
                   <div
@@ -406,7 +412,9 @@ export default function AchievementsSection() {
             className="absolute inset-0 flex flex-col items-center justify-center text-center"
             style={{
               zIndex: zIndex.finalIntro,
-              paddingInline: spacing[6],
+              maxWidth: sizes.layout.desktopContainer,
+              marginInline: "auto",
+              paddingInline: sizes.layout.gutter,
             }}
           >
             <h2

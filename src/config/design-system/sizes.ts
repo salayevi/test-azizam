@@ -1,4 +1,12 @@
 export const sizes = {
+  layout: {
+    desktopContainer: "1200px",
+    desktopWide: "1360px",
+    desktopTextMeasure: "68ch",
+    gutter: "clamp(24px, 3vw, 56px)",
+    sectionGap: "clamp(72px, 10vh, 140px)",
+  },
+
   hero: {
     titleMobile: "140px",
     containerMax: "1280px",

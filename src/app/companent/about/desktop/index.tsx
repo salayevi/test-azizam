@@ -105,59 +105,78 @@ export default function About() {
     <section
       ref={sectionRef}
       id="about"
-      className="flex h-screen w-full items-center justify-center overflow-hidden"
+      className="h-screen w-full overflow-hidden"
       style={{ backgroundColor: colors.background.about }}
     >
-      <h2
-        ref={bigTitleRef}
-        className="absolute text-7xl font-bold md:text-[120px]"
-        style={{ color: colors.brand.primaryStrong }}
-      >
-        {about.section.sectionLabel.toUpperCase()}
-      </h2>
-
       <div
-        ref={imageRef}
-        className="absolute overflow-hidden"
+        className="relative mx-auto h-full w-full"
         style={{
-          borderRadius: radius.xl,
-          border: `2px solid ${colors.brand.primary}`,
-          boxShadow: shadows.card,
+          maxWidth: sizes.layout.desktopWide,
+          paddingInline: sizes.layout.gutter,
         }}
       >
-        <Image
-          src={about.image?.url ?? "/grid-img.png"}
-          alt={about.image?.alt ?? about.section.brandTitle}
-          width={520}
-          height={650}
-          className="object-cover"
-        />
-      </div>
-
-      <div
-        className="absolute right-[10vw]"
-        style={{ width: sizes.about.textWidth }}
-      >
-        <h3
-          ref={titleRef}
-          className="absolute text-5xl font-semibold"
-          style={{ color: colors.brand.primaryStrong }}
+        <h2
+          ref={bigTitleRef}
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-bold"
+          style={{
+            color: colors.brand.primaryStrong,
+            fontSize: "clamp(72px, 8vw, 120px)",
+          }}
         >
-          {about.section.brandTitle}
-        </h3>
+          {about.section.sectionLabel.toUpperCase()}
+        </h2>
 
-        {about.textItems.map((item, index) => (
-          <p
-            key={item.id}
-            ref={(el) => {
-              textsRef.current[index] = el
+        <div
+          ref={imageRef}
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 overflow-hidden"
+          style={{
+            width: sizes.about.imageWidth,
+            height: sizes.about.imageHeight,
+            borderRadius: radius.xl,
+            border: `2px solid ${colors.brand.primary}`,
+            boxShadow: shadows.card,
+          }}
+        >
+          <Image
+            src={about.image?.url ?? "/grid-img.png"}
+            alt={about.image?.alt ?? about.section.brandTitle}
+            width={520}
+            height={650}
+            className="h-full w-full object-cover"
+          />
+        </div>
+
+        <div
+          className="absolute right-0 top-1/2 -translate-y-1/2"
+          style={{ width: sizes.about.textWidth }}
+        >
+          <h3
+            ref={titleRef}
+            className="absolute font-semibold"
+            style={{
+              color: colors.brand.primaryStrong,
+              fontSize: "clamp(40px, 3.6vw, 56px)",
             }}
-            className="absolute text-2xl"
-            style={{ color: colors.brand.secondary }}
           >
-            {item.text}
-          </p>
-        ))}
+            {about.section.brandTitle}
+          </h3>
+
+          {about.textItems.map((item, index) => (
+            <p
+              key={item.id}
+              ref={(el) => {
+                textsRef.current[index] = el
+              }}
+              className="absolute"
+              style={{
+                color: colors.brand.secondary,
+                fontSize: "clamp(24px, 1.8vw, 32px)",
+              }}
+            >
+              {item.text}
+            </p>
+          ))}
+        </div>
       </div>
     </section>
   )
