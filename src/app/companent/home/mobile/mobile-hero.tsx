@@ -18,6 +18,7 @@ export default function MobileHero({ startupReady = false }: MobileHeroProps) {
   const snapshot = usePublicSiteContent();
   const hero = selectHeroViewModel(snapshot);
   const [firstTitleLine = "Azizam", secondTitleLine = "Market"] = hero.titleLines;
+  const activeBackgroundMedia = hero.mobileBackgroundMedia ?? hero.backgroundMedia;
   const sectionRef = useRef<HTMLElement | null>(null);
   const stageRef = useRef<HTMLDivElement | null>(null);
 
@@ -63,9 +64,9 @@ export default function MobileHero({ startupReady = false }: MobileHeroProps) {
           ref={bgRef}
           className="absolute inset-0 overflow-hidden"
           style={
-            hero.backgroundMedia?.kind === "image"
+            activeBackgroundMedia?.kind === "image"
               ? {
-                  backgroundImage: `url('${hero.backgroundMedia.url}')`,
+                  backgroundImage: `url('${activeBackgroundMedia.url}')`,
                   backgroundSize: "cover",
                   backgroundRepeat: "no-repeat",
                   backgroundPosition: "center center",
@@ -78,7 +79,7 @@ export default function MobileHero({ startupReady = false }: MobileHeroProps) {
                 }
           }
         >
-          {hero.backgroundMedia?.kind === "video" ? (
+          {activeBackgroundMedia?.kind === "video" ? (
             <video
               className="h-full w-full object-cover"
               autoPlay
@@ -86,7 +87,7 @@ export default function MobileHero({ startupReady = false }: MobileHeroProps) {
               loop
               playsInline
             >
-              <source src={hero.backgroundMedia.url} />
+              <source src={activeBackgroundMedia.url} />
             </video>
           ) : null}
         </div>

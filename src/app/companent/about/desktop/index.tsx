@@ -6,6 +6,7 @@ import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { colors, radius, shadows, sizes } from "@/config/design-system"
 import { usePublicSiteContent } from "@/app/companent/shared/content/PublicSiteContentProvider"
+import { createContentPlaceholderDataUri } from "@/lib/backend/placeholders"
 import { selectAboutViewModel } from "@/lib/backend/selectors"
 
 gsap.registerPlugin(ScrollTrigger)
@@ -138,11 +139,18 @@ export default function About() {
           }}
         >
           <Image
-            src={about.image?.url ?? "/grid-img.png"}
+            src={
+              about.image?.url ??
+              createContentPlaceholderDataUri({
+                title: about.section.brandTitle,
+                subtitle: about.section.sectionLabel,
+              })
+            }
             alt={about.image?.alt ?? about.section.brandTitle}
             width={520}
             height={650}
             className="h-full w-full object-cover"
+            unoptimized
           />
         </div>
 

@@ -5,7 +5,15 @@ import { useAuthModal } from "./AuthModalProvider"
 import { colors, radius, shadows, sizes, zIndex } from "@/config/design-system"
 
 export default function AuthModal() {
-  const { isOpen, view, closeModal, setView, authenticate, isSubmitting } =
+  const {
+    isOpen,
+    view,
+    closeModal,
+    setView,
+    authenticate,
+    isSubmitting,
+    errorMessage,
+  } =
     useAuthModal()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -160,6 +168,15 @@ export default function AuthModal() {
                 ? "Kirish"
                 : "Ro‘yxatdan o‘tish"}
           </button>
+
+          {errorMessage ? (
+            <p
+              className="text-sm leading-6"
+              style={{ color: colors.text.whiteSoft }}
+            >
+              {errorMessage}
+            </p>
+          ) : null}
         </div>
       </div>
     </div>

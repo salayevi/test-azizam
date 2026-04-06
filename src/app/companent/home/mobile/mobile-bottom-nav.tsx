@@ -9,6 +9,7 @@ import { mobileNavbar } from "@/config/mobile-system/mobile-navbar";
 import { mobileSpacing } from "@/config/mobile-system/mobile-spacing";
 import { mobileTypography } from "@/config/mobile-system/mobile-typography";
 import { usePublicSiteContent } from "@/app/companent/shared/content/PublicSiteContentProvider";
+import { createContentPlaceholderDataUri } from "@/lib/backend/placeholders";
 import {
   selectLogoAsset,
   selectNavigationLinksForPlacement,
@@ -81,10 +82,20 @@ export default function MobileBottomNav() {
             <a href="#home-mobile" className="flex items-center">
               <SmallCircle>
                 <Image
-                  src={logoAsset?.url ?? "/logo.png"}
+                  src={
+                    logoAsset?.url ??
+                    createContentPlaceholderDataUri({
+                      title: siteIdentity.brandText || siteIdentity.siteName,
+                      subtitle: "Logo",
+                      background: "#ffffff",
+                      foreground: "#101828",
+                      accent: "#d85ca7",
+                    })
+                  }
                   alt={logoAsset?.alt ?? siteIdentity.siteName}
                   width={28}
                   height={28}
+                  unoptimized
                 />
               </SmallCircle>
             </a>

@@ -1,4 +1,5 @@
 import type { ProductRecord, PublicSiteSnapshot } from "@/lib/backend/domain";
+import { createContentPlaceholderDataUri } from "@/lib/backend/placeholders";
 import { selectMediaAsset, selectProductColorVariants } from "@/lib/backend/selectors";
 import type { Product } from "./product.types";
 
@@ -36,7 +37,15 @@ export function mapProductRecordsToProducts(
       mediaPanel: record.mediaPanel,
       media: {
         type: mediaAsset?.kind === "video" ? "video" : "image",
-        src: mediaAsset?.url ?? "/products/parfium.jpg",
+        src:
+          mediaAsset?.url ??
+          createContentPlaceholderDataUri({
+            title: record.title,
+            subtitle: record.subtitle ?? record.badge ?? "Product",
+            background: record.displayTheme.bg,
+            foreground: record.displayTheme.text,
+            accent: record.displayTheme.accent,
+          }),
         alt: mediaAsset?.alt ?? record.title,
         hasTransparentBg: record.mediaPanel.mode !== "imageTone",
       },

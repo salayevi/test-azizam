@@ -13,6 +13,7 @@ import {
   zIndex,
 } from "@/config/design-system"
 import { usePublicSiteContent } from "@/app/companent/shared/content/PublicSiteContentProvider"
+import { createContentPlaceholderDataUri } from "@/lib/backend/placeholders"
 import { selectAchievementsViewModel } from "@/lib/backend/selectors"
 
 gsap.registerPlugin(ScrollTrigger)
@@ -361,7 +362,16 @@ export default function AchievementsSection() {
                       }}
                     >
                       <img
-                        src={item.image?.url ?? "/achievements/team-1.jpg"}
+                        src={
+                          item.image?.url ??
+                          createContentPlaceholderDataUri({
+                            title: item.item.title,
+                            subtitle: item.item.eyebrow ?? String(index + 1).padStart(2, "0"),
+                            background: item.theme.frame,
+                            foreground: item.theme.text,
+                            accent: item.theme.ribbon,
+                          })
+                        }
                         alt={item.image?.alt ?? item.item.title}
                         className="achievement-image w-full object-cover"
                         style={{ height: sizes.achievements.desktopImageHeight }}
@@ -469,10 +479,20 @@ export default function AchievementsSection() {
               }}
             >
               <Image
-                src={item.image?.url ?? "/achievements/team-1.jpg"}
+                src={
+                  item.image?.url ??
+                  createContentPlaceholderDataUri({
+                    title: item.item.title,
+                    subtitle: item.item.eyebrow ?? String(item.item.sortOrder).padStart(2, "0"),
+                    background: item.theme.frame,
+                    foreground: item.theme.text,
+                    accent: item.theme.ribbon,
+                  })
+                }
                 alt={item.image?.alt ?? item.item.title}
                 width={500}
                 height={500}
+                unoptimized
               />
 
               <div

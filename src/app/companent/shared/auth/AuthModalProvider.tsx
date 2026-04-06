@@ -10,7 +10,7 @@ import {
   useState,
 } from "react";
 import type { AuthSession } from "@/lib/backend/domain";
-import { temporaryLocalAuthSessionService } from "@/lib/backend/services";
+import { deferredCustomerAuthSessionService } from "@/lib/backend/services";
 import AuthModal from "./AuthModal";
 
 type AuthView = "login" | "register";
@@ -21,6 +21,7 @@ type AuthModalContextType = {
   session: AuthSession | null;
   isAuthenticated: boolean;
   isSubmitting: boolean;
+  errorMessage: string;
   openLogin: () => void;
   openRegister: () => void;
   closeModal: () => void;
@@ -44,11 +45,12 @@ export function AuthModalProvider({
   const [view, setView] = useState<AuthView>("login");
   const [session, setSession] = useState<AuthSession | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     let active = true;
 
-    temporaryLocalAuthSessionService.getSession().then((currentSession) => {
+    deferredCustomerAuthSessionService.getSession().then((currentSession) => {
       if (active) {
         setSession(currentSession);
       }
@@ -60,16 +62,19 @@ export function AuthModalProvider({
   }, []);
 
   const openLogin = useCallback(() => {
+    setErrorMessage("");
     setView("login");
     setIsOpen(true);
   }, []);
 
   const openRegister = useCallback(() => {
+    setErrorMessage("");
     setView("register");
     setIsOpen(true);
   }, []);
 
   const closeModal = useCallback(() => {
+    setErrorMessage("");
     setIsOpen(false);
   }, []);
 
@@ -83,9 +88,10 @@ export function AuthModalProvider({
     password: string;
   }) => {
     setIsSubmitting(true);
+    setErrorMessage("");
 
     try {
-      const nextSession = await temporaryLocalAuthSessionService.authenticate({
+      const nextSession = await deferredCustomerAuthSessionService.authenticate({
         mode,
         email,
         password,
@@ -95,13 +101,19 @@ export function AuthModalProvider({
         setSession(nextSession);
         setIsOpen(false);
       });
+    } catch (error) {
+      setErrorMessage(
+        error instanceof Error
+          ? error.message
+          : "Customer auth is temporarily unavailable.",
+      );
     } finally {
       setIsSubmitting(false);
     }
   }, []);
 
   const logout = useCallback(async () => {
-    await temporaryLocalAuthSessionService.clearSession();
+    await deferredCustomerAuthSessionService.clearSession();
     setSession(null);
   }, []);
 
@@ -114,6 +126,7 @@ export function AuthModalProvider({
       session,
       isAuthenticated,
       isSubmitting,
+      errorMessage,
       openLogin,
       openRegister,
       closeModal,
@@ -127,6 +140,7 @@ export function AuthModalProvider({
       session,
       isAuthenticated,
       isSubmitting,
+      errorMessage,
       openLogin,
       openRegister,
       closeModal,

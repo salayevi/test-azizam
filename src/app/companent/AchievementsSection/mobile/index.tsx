@@ -3,6 +3,7 @@
 import { mobileSections } from "@/config/mobile-system/mobile-sections";
 import { colors } from "@/config/design-system";
 import { usePublicSiteContent } from "@/app/companent/shared/content/PublicSiteContentProvider";
+import { createContentPlaceholderDataUri } from "@/lib/backend/placeholders";
 import { selectAchievementsViewModel } from "@/lib/backend/selectors";
 import MobileAchievementsShell from "./mobile-achievements-shell";
 import useMobileAchievementsScroll from "./useMobileAchievementsScroll";
@@ -15,7 +16,15 @@ export default function MobileAchievementsSection() {
       name: item.item.title,
       role: item.item.eyebrow ?? `0${index + 1}`,
       description: item.item.description,
-      image: item.image?.url ?? "/achievements/team-1.jpg",
+      image:
+        item.image?.url ??
+        createContentPlaceholderDataUri({
+          title: item.item.title,
+          subtitle: item.item.eyebrow ?? `0${index + 1}`,
+          background: item.theme.frame,
+          foreground: item.theme.text,
+          accent: item.theme.ribbon,
+        }),
       theme: item.theme,
     }),
   );

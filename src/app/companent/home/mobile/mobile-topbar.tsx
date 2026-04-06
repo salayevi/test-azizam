@@ -9,6 +9,7 @@ import { mobileNavbar } from "@/config/mobile-system/mobile-navbar";
 import { mobileSpacing } from "@/config/mobile-system/mobile-spacing";
 import { mobileHero } from "@/config/mobile-system/mobile-hero";
 import { usePublicSiteContent } from "@/app/companent/shared/content/PublicSiteContentProvider";
+import { createContentPlaceholderDataUri } from "@/lib/backend/placeholders";
 import { selectLogoAsset, selectSiteIdentity } from "@/lib/backend/selectors";
 
 type MobileTopbarProps = {
@@ -64,11 +65,21 @@ export default function MobileTopbar({ topbarRef }: MobileTopbarProps) {
     >
       <CircleShell>
         <Image
-          src={logoAsset?.url ?? "/logo.png"}
+          src={
+            logoAsset?.url ??
+            createContentPlaceholderDataUri({
+              title: siteIdentity.brandText || siteIdentity.siteName,
+              subtitle: "Logo",
+              background: "#ffffff",
+              foreground: "#101828",
+              accent: "#d85ca7",
+            })
+          }
           alt={logoAsset?.alt ?? siteIdentity.siteName}
           width={34}
           height={34}
           priority
+          unoptimized
         />
       </CircleShell>
 

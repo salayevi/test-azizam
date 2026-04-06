@@ -18,6 +18,7 @@ type ThemeCssVariables = Record<`--${string}`, string>;
 type ResolvedHeroViewModel = {
   titleLines: string[];
   backgroundMedia: MediaAsset | null;
+  mobileBackgroundMedia: MediaAsset | null;
   overlayColor: string;
 };
 
@@ -83,6 +84,10 @@ export function selectHeroViewModel(
     backgroundMedia: selectMediaAsset(
       snapshot,
       snapshot.hero.backgroundMediaAssetId,
+    ),
+    mobileBackgroundMedia: selectMediaAsset(
+      snapshot,
+      snapshot.hero.mobileBackgroundMediaAssetId,
     ),
     overlayColor: snapshot.hero.overlay.color,
   };

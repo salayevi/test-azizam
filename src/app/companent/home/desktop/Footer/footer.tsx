@@ -4,6 +4,7 @@ import Image from "next/image"
 import { colors, radius, sizes } from "@/config/design-system"
 import AuthTriggerButton from "@/app/companent/shared/auth/AuthTriggerButton"
 import { usePublicSiteContent } from "@/app/companent/shared/content/PublicSiteContentProvider"
+import { createContentPlaceholderDataUri } from "@/lib/backend/placeholders"
 import { selectFooterViewModel } from "@/lib/backend/selectors"
 
 export default function Footer() {
@@ -28,10 +29,20 @@ export default function Footer() {
           <div className="max-w-md">
             <div className="flex items-center gap-3">
               <Image
-                src={footer.logo?.url ?? "/logo.png"}
+                src={
+                  footer.logo?.url ??
+                  createContentPlaceholderDataUri({
+                    title: footer.section.brandText,
+                    subtitle: "Logo",
+                    background: "#ffffff",
+                    foreground: "#101828",
+                    accent: "#d85ca7",
+                  })
+                }
                 alt={footer.logo?.alt ?? footer.section.brandText}
                 width={44}
                 height={44}
+                unoptimized
               />
               <span className="text-xl font-semibold text-white">
                 {footer.section.brandText}

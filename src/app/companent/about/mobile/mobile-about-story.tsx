@@ -9,6 +9,7 @@ import { mobileSpacing } from "@/config/mobile-system/mobile-spacing";
 import { mobileMotion } from "@/config/mobile-system/mobile-motion";
 import { colors } from "@/config/design-system";
 import { usePublicSiteContent } from "@/app/companent/shared/content/PublicSiteContentProvider";
+import { createContentPlaceholderDataUri } from "@/lib/backend/placeholders";
 import { selectAboutViewModel } from "@/lib/backend/selectors";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -195,12 +196,19 @@ export default function MobileAboutStory() {
                 }}
               >
                 <Image
-                  src={about.image?.url ?? "/grid-img.png"}
+                  src={
+                    about.image?.url ??
+                    createContentPlaceholderDataUri({
+                      title: about.section.brandTitle,
+                      subtitle: about.section.sectionLabel,
+                    })
+                  }
                   alt={about.image?.alt ?? about.section.brandTitle}
                   width={420}
                   height={620}
                   className="block w-full object-cover"
                   sizes="(max-width: 480px) 84vw, 350px"
+                  unoptimized
                   style={{
                     height: mobileSections.about.imageHeight,
                   }}

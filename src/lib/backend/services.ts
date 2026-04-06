@@ -127,30 +127,16 @@ export function createNotImplementedSmartAdminAssistantService(): SmartAdminAssi
   };
 }
 
-let temporaryAuthSession: AuthSession | null = null;
-
-export const temporaryLocalAuthSessionService: AuthSessionService = {
+export const deferredCustomerAuthSessionService: AuthSessionService = {
   async getSession() {
-    return temporaryAuthSession;
+    return null;
   },
-  async authenticate(input) {
-    const timestamp = new Date().toISOString();
-    const emailHandle = input.email.split("@")[0] || "azizam-user";
-
-    temporaryAuthSession = {
-      sessionId: `tmp-session-${Date.now()}`,
-      userId: `tmp-user-${emailHandle.toLowerCase()}`,
-      email: input.email,
-      displayName: emailHandle,
-      role: "customer",
-      status: "authenticated",
-      startedAt: timestamp,
-      expiresAt: undefined,
-    };
-
-    return temporaryAuthSession;
+  async authenticate() {
+    throw new Error(
+      "Customer auth is not enabled in this stabilization phase. Keep the website in guest mode until real auth is integrated.",
+    );
   },
   async clearSession() {
-    temporaryAuthSession = null;
+    return;
   },
 };

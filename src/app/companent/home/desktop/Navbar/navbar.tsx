@@ -6,6 +6,7 @@ import gsap from "gsap"
 import { colors, motion, sizes, spacing, zIndex } from "@/config/design-system"
 import AuthTriggerButton from "@/app/companent/shared/auth/AuthTriggerButton"
 import { usePublicSiteContent } from "@/app/companent/shared/content/PublicSiteContentProvider"
+import { createContentPlaceholderDataUri } from "@/lib/backend/placeholders"
 import {
   selectLogoAsset,
   selectNavigationLinksForPlacement,
@@ -50,10 +51,20 @@ export default function Navbar() {
       >
         <div className="flex items-center gap-2">
           <Image
-            src={logoAsset?.url ?? "/logo.png"}
+            src={
+              logoAsset?.url ??
+              createContentPlaceholderDataUri({
+                title: siteIdentity.brandText || siteIdentity.siteName,
+                subtitle: "Logo",
+                background: "#ffffff",
+                foreground: "#101828",
+                accent: "#d85ca7",
+              })
+            }
             alt={logoAsset?.alt ?? siteIdentity.siteName}
             width={40}
             height={40}
+            unoptimized
           />
         </div>
 

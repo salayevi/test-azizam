@@ -131,6 +131,7 @@ export type HeroOverlaySettings = {
 export type HeroSection = ManagedContentEntity & {
   titleLines: string[];
   backgroundMediaAssetId: string;
+  mobileBackgroundMediaAssetId?: string;
   logoAssetId?: string;
   overlay: HeroOverlaySettings;
 };
