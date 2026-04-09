@@ -96,6 +96,9 @@ export type MediaReplaceRequest = {
 
 export type AuthCredentialsRequest = {
   mode: "login" | "register";
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
   email: string;
   password: string;
 };

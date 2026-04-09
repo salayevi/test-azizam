@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react"
 import gsap from "gsap"
 import { colors, motion, sizes, spacing, zIndex } from "@/config/design-system"
 import AuthTriggerButton from "@/app/companent/shared/auth/AuthTriggerButton"
+import { useAuthModal } from "@/app/companent/shared/auth/AuthModalProvider"
 import { usePublicSiteContent } from "@/app/companent/shared/content/PublicSiteContentProvider"
 import { createContentPlaceholderDataUri } from "@/lib/backend/placeholders"
 import {
@@ -22,6 +23,7 @@ export default function Navbar() {
     "desktopHeader",
   )
   const navRef = useRef<HTMLElement | null>(null)
+  const { customerAuthAvailable, isAuthenticated, session, logout } = useAuthModal()
 
   useEffect(() => {
     gsap.from(navRef.current, {
@@ -82,9 +84,28 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
-          <AuthTriggerButton mode="login" className="transition hover:opacity-80">
-            Kirish yoki Ro&apos;yxatdan o&apos;tish
-          </AuthTriggerButton>
+          {isAuthenticated ? (
+            <div className="flex items-center gap-3">
+              <div className="text-right">
+                <strong className="block text-sm">
+                  {session?.displayName || session?.email || "Akkaunt"}
+                </strong>
+                <span className="text-xs text-white/70">Akkaunt faol</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => void logout()}
+                className="rounded-full border px-4 py-2 text-sm transition hover:opacity-80"
+                style={{ borderColor: "rgba(255,255,255,0.18)" }}
+              >
+                Chiqish
+              </button>
+            </div>
+          ) : (
+            <AuthTriggerButton mode="login" className="transition hover:opacity-80">
+              {customerAuthAvailable ? "Kirish yoki Ro&apos;yxatdan o&apos;tish" : "Hisob markazi"}
+            </AuthTriggerButton>
+          )}
         </div>
       </div>
     </nav>

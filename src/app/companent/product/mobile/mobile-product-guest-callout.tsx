@@ -1,5 +1,6 @@
 "use client";
 
+import { useAuthModal } from "../../shared/auth/AuthModalProvider";
 import AuthTriggerButton from "../../shared/auth/AuthTriggerButton";
 
 type MobileProductGuestCalloutProps = {
@@ -21,6 +22,8 @@ export default function MobileProductGuestCallout({
   backgroundColor,
   dark = false,
 }: MobileProductGuestCalloutProps) {
+  const { customerAuthAvailable } = useAuthModal();
+
   return (
     <div
       className="mt-5 rounded-[24px] border shadow-[0_10px_26px_rgba(0,0,0,0.08)]"
@@ -35,30 +38,45 @@ export default function MobileProductGuestCallout({
         className="text-[clamp(14px,3.8vw,16px)] font-semibold leading-[1.35]"
         style={{ color: textColor }}
       >
-        To‘liq imkoniyatlar uchun tizimga kiring
+        {customerAuthAvailable ? "To‘liq imkoniyatlar uchun tizimga kiring" : "Hisob funksiyalari hozircha yopiq"}
       </p>
 
       <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2 text-[clamp(13px,3.7vw,15px)]">
-        <AuthTriggerButton
-          mode="register"
-          className="font-semibold underline underline-offset-4"
-          style={{ color: accentColor }}
-        >
-          Ro‘yxatdan o‘ting
-        </AuthTriggerButton>
+        {customerAuthAvailable ? (
+          <>
+            <AuthTriggerButton
+              mode="register"
+              className="font-semibold underline underline-offset-4"
+              style={{ color: accentColor }}
+            >
+              Ro‘yxatdan o‘ting
+            </AuthTriggerButton>
 
-        <span style={{ color: mutedColor }}>yoki</span>
+            <span style={{ color: mutedColor }}>yoki</span>
 
-        <AuthTriggerButton
-          mode="login"
-          className="rounded-full px-4 py-2 font-semibold"
-          style={{
-            background: accentColor,
-            color: dark ? "#111" : "#fff",
-          }}
-        >
-          Kirish
-        </AuthTriggerButton>
+            <AuthTriggerButton
+              mode="login"
+              className="rounded-full px-4 py-2 font-semibold"
+              style={{
+                background: accentColor,
+                color: dark ? "#111" : "#fff",
+              }}
+            >
+              Kirish
+            </AuthTriggerButton>
+          </>
+        ) : (
+          <AuthTriggerButton
+            mode="login"
+            className="rounded-full px-4 py-2 font-semibold"
+            style={{
+              background: accentColor,
+              color: dark ? "#111" : "#fff",
+            }}
+          >
+            Batafsil
+          </AuthTriggerButton>
+        )}
       </div>
     </div>
   );

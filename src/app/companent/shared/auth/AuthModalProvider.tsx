@@ -10,7 +10,10 @@ import {
   useState,
 } from "react";
 import type { AuthSession } from "@/lib/backend/domain";
-import { deferredCustomerAuthSessionService } from "@/lib/backend/services";
+import {
+  customerAuthCapability,
+  deferredCustomerAuthSessionService,
+} from "@/lib/backend/services";
 import AuthModal from "./AuthModal";
 
 type AuthView = "login" | "register";
@@ -22,12 +25,17 @@ type AuthModalContextType = {
   isAuthenticated: boolean;
   isSubmitting: boolean;
   errorMessage: string;
+  customerAuthAvailable: boolean;
+  customerAuthMessage: string;
   openLogin: () => void;
   openRegister: () => void;
   closeModal: () => void;
   setView: (view: AuthView) => void;
   authenticate: (input: {
     mode: AuthView;
+    firstName?: string;
+    lastName?: string;
+    phone?: string;
     email: string;
     password: string;
   }) => Promise<void>;
@@ -80,19 +88,33 @@ export function AuthModalProvider({
 
   const authenticate = useCallback(async ({
     mode,
+    firstName,
+    lastName,
+    phone,
     email,
     password,
   }: {
     mode: AuthView;
+    firstName?: string;
+    lastName?: string;
+    phone?: string;
     email: string;
     password: string;
   }) => {
+    if (!customerAuthCapability.isAvailable) {
+      setErrorMessage(customerAuthCapability.message);
+      return;
+    }
+
     setIsSubmitting(true);
     setErrorMessage("");
 
     try {
       const nextSession = await deferredCustomerAuthSessionService.authenticate({
         mode,
+        firstName,
+        lastName,
+        phone,
         email,
         password,
       });
@@ -127,6 +149,8 @@ export function AuthModalProvider({
       isAuthenticated,
       isSubmitting,
       errorMessage,
+      customerAuthAvailable: customerAuthCapability.isAvailable,
+      customerAuthMessage: customerAuthCapability.message,
       openLogin,
       openRegister,
       closeModal,

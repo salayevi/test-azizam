@@ -3,6 +3,7 @@
 import type { ReactNode, RefObject } from "react";
 import Image from "next/image";
 import AuthTriggerButton from "../../shared/auth/AuthTriggerButton";
+import { useAuthModal } from "../../shared/auth/AuthModalProvider";
 import useMobileCollapsedNav from "../../shared/hooks/use-mobile-collapsed-nav";
 import { colors } from "@/config/design-system";
 import { mobileNavbar } from "@/config/mobile-system/mobile-navbar";
@@ -49,6 +50,7 @@ export default function MobileTopbar({ topbarRef }: MobileTopbarProps) {
   const siteIdentity = selectSiteIdentity(snapshot);
   const logoAsset = selectLogoAsset(snapshot);
   const isCollapsed = useMobileCollapsedNav(110);
+  const { isAuthenticated } = useAuthModal();
 
   return (
     <div
@@ -83,34 +85,45 @@ export default function MobileTopbar({ topbarRef }: MobileTopbarProps) {
         />
       </CircleShell>
 
-      <AuthTriggerButton
-        mode="login"
-        className="block"
-        style={{
-          padding: 0,
-          border: "none",
-          background: "transparent",
-        }}
-      >
-        <CircleShell>
-          <svg
-            width="26"
-            height="26"
-            viewBox="0 0 24 24"
-            fill="none"
-            aria-hidden="true"
-          >
-            <path
-              d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z"
-              fill={colors.brand.primary}
-            />
-            <path
-              d="M4 20C4.92575 16.5539 8.07838 14 12 14C15.9216 14 19.0742 16.5539 20 20"
-              fill={colors.brand.primary}
-            />
-          </svg>
-        </CircleShell>
-      </AuthTriggerButton>
+      <div className="relative">
+        <AuthTriggerButton
+          mode="login"
+          className="block"
+          style={{
+            padding: 0,
+            border: "none",
+            background: "transparent",
+          }}
+        >
+          <CircleShell>
+            <svg
+              width="26"
+              height="26"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z"
+                fill={colors.brand.primary}
+              />
+              <path
+                d="M4 20C4.92575 16.5539 8.07838 14 12 14C15.9216 14 19.0742 16.5539 20 20"
+                fill={colors.brand.primary}
+              />
+            </svg>
+          </CircleShell>
+        </AuthTriggerButton>
+        {isAuthenticated ? (
+          <span
+            className="absolute right-0 top-0 h-3 w-3 rounded-full"
+            style={{
+              backgroundColor: "#34D399",
+              border: "2px solid white",
+            }}
+          />
+        ) : null}
+      </div>
     </div>
   );
 }

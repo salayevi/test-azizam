@@ -19,6 +19,10 @@ import type {
   OrderCreateRequest,
   SavedItemCreateRequest,
 } from "./api";
+import {
+  createCustomerAuthUnavailableError,
+  customerAuthCapability,
+} from "./customer-auth";
 
 export type PublicSiteContentService = {
   getPublicSiteSnapshot(): Promise<PublicSiteSnapshot>;
@@ -132,11 +136,11 @@ export const deferredCustomerAuthSessionService: AuthSessionService = {
     return null;
   },
   async authenticate() {
-    throw new Error(
-      "Customer auth is not enabled in this stabilization phase. Keep the website in guest mode until real auth is integrated.",
-    );
+    throw createCustomerAuthUnavailableError();
   },
   async clearSession() {
     return;
   },
 };
+
+export { customerAuthCapability };
